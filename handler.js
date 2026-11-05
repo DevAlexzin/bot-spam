@@ -542,9 +542,9 @@ export default async (sock, msg) => {
 
   const cmdData = global.comandos.get(command);
 
-  // ✅ ELIMINADO EL MENSAJE DE ERROR DE COMANDO NO EXISTE
+  // ✅ SI EL COMANDO NO EXISTE O ESTÁ MUTEADO, SE IGNORA SILENCIOSAMENTE
   if (!cmdData || user.muted === 1 || user.muted === true) {
-    return; // Se ignora silenciosamente
+    return; 
   }
 
   const comando = msg.text.slice(usedPrefix.length)
