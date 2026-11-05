@@ -13,8 +13,8 @@ import cmdsLoader from '#cmdsloader';
 import "#db";
 import { startSubBot } from '#subs';
 import db from '#db';
-
-// ❌ ELIMINADO: import { iniciarCompeChecker } from './cmds/compeChecker.js';
+import { iniciarCompeChecker } from './cmds/compeChecker.js';
+import { iniciarReglasChecker } from './cmds/reglasChecker.js';
 
 const log = {
   info: (msg) => console.log(chalk.bgBlue.white.bold(` INFO `), chalk.white(msg)),
@@ -40,7 +40,7 @@ function normalizePhone(input) {
 
 console.log(chalk.blue.bold('\n INICIANDO SISTEMA ...'))
 console.log(chalk.cyan(`
-      Hr vip | Bot
+      Princess | Bot
      Powered by Alexander ~
 `))
 
@@ -235,13 +235,22 @@ export async function startBot() {
       log.success(`Conectado a: ${userName}`);
       if (!botReady) {
         botReady = true;
-        // ❌ ELIMINADO: El bloque que iniciaba el compeChecker
-        // try {
-        //   iniciarCompeChecker(sock);
-        //   log.success('Sistema de competencias programadas iniciado.');
-        // } catch (err) {
-        //   log.error(`Error iniciando compeChecker: ${err.message}`);
-        // }
+        
+        // ✅ INICIAMOS EL CHECKER DE COMPETENCIAS
+        try {
+          iniciarCompeChecker(sock);
+          log.success('Sistema de competencias programadas iniciado.');
+        } catch (err) {
+          log.error(`Error iniciando compeChecker: ${err.message}`);
+        }
+
+        // ✅ INICIAMOS EL CHECKER DE REGLAS
+        try {
+          iniciarReglasChecker(sock);
+          log.success('Sistema de reglas programadas iniciado.');
+        } catch (err) {
+          log.error(`Error iniciando reglasChecker: ${err.message}`);
+        }
       }
     }
     if (isNewLogin) log.info("Nuevo dispositivo detectado");
